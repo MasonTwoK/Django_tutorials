@@ -2,16 +2,18 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
+from .models import Question, Choice
 
 def index(request):
-    return HttpResponse("Hello World. This is index.")
+    latest_questions = Question.objects.order_by('-pub_date')[:4]
+    resp = ', '.join([q.question_text for q in latest_questions])
+    return HttpResponse(resp)
 
-def detail(request, id_page):
-    return HttpResponse("This is detail page %s" % id_page)
+def detail(request, question_id):
+    return HttpResponse("This detail page %s" % question_id)
 
-def results(request, id_page):
-    return HttpResponse("This page shows you results %s" % id_page)
+def results(request, question_id):
+    return HttpResponse("This results page %s" % question_id)
 
-def vote(requst, id_page):
-    response = "This page show you votes %s"
-    return HttpResponse(response % id_page) 
+def vote(request, question_id):
+    return HttpResponse("This vote page %s" % question_id)
